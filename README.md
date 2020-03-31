@@ -22,7 +22,9 @@ yarn add worker-mock
 ## Usage
 
 ```js
-import { createWorkerMock, resolveWorkerForClient } from 'worker-mock';
+import workerMockTools from 'worker-mock';
+
+const { createWorkerMock, resolveWorkerForClient } = workerMockTools;
 
 const workerMock = createWorkerMock();
 
