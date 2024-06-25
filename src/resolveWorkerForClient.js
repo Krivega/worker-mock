@@ -15,11 +15,15 @@ const resolveWorkerForClient = (workerMock) => {
 
       handlersMap.set(callback, handler);
 
-      return workerMock.onPostMessageFromWorker(resolveHandlerWorkerEvent(callback));
+      return workerMock.onPostMessageFromWorker(handler);
     },
 
     removeEventListener(eventName, callback) {
-      return workerMock.offPostMessageFromWorker(handlersMap.get(callback));
+      const handler = handlersMap.get(callback);
+
+      handlersMap.delete(callback);
+
+      return workerMock.offPostMessageFromWorker(handler);
     },
   };
 };
