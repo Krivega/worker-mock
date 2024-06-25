@@ -3,7 +3,7 @@ const resolveHandlerWorkerEvent = require('./resolveHandlerWorkerEvent');
 const GENERAL_MESSAGE_EVENT = 'message';
 
 const resolveWorkerForClient = (workerMock) => {
-  const handlersMapWorkerEvent = new Map();
+  const handlersMap = new Map();
 
   return {
     postMessage(message) {
@@ -13,13 +13,13 @@ const resolveWorkerForClient = (workerMock) => {
     addEventListener(eventName, callback) {
       const handler = resolveHandlerWorkerEvent(callback);
 
-      handlersMapWorkerEvent.set(callback, handler);
+      handlersMap.set(callback, handler);
 
       return workerMock.onPostMessageFromWorker(resolveHandlerWorkerEvent(callback));
     },
 
     removeEventListener(eventName, callback) {
-      return workerMock.offPostMessageFromWorker(handlersMapWorkerEvent.get(callback));
+      return workerMock.offPostMessageFromWorker(handlersMap.get(callback));
     },
   };
 };
