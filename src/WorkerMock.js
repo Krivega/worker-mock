@@ -19,6 +19,19 @@ class WorkerMock {
   }
 
   /**
+   * offmessage on client
+   *
+   * @param {function} handler - event handler function
+   *
+   * @return {undefined} returns undefined
+   */
+  offPostMessageFromWorker(handler) {
+    this.postMessagesHandlers = this.postMessagesHandlers.filter((savedHandler) => {
+      return savedHandler !== handler;
+    });
+  }
+
+  /**
    * postMessage from client
    *
    * @param {string} eventName - event name
@@ -55,6 +68,24 @@ class WorkerMock {
     this.addEventListenerHandlers[eventName] = handlers;
 
     handlers.push(resolveHandlerWorkerEvent(handler));
+  }
+
+  /**
+   * worker method
+   *
+   * @param {string}   eventName - event name
+   * @param {function} handler   - event handler function
+   *
+   * @return {undefined} returns undefined
+   */
+  removeEventListener(eventName, handler) {
+    const handlers = this.addEventListenerHandlers[eventName] || [];
+
+    const filteredHandlers = handlers.filter((savedHandler) => {
+      return savedHandler !== handler;
+    });
+
+    this.addEventListenerHandlers[eventName] = filteredHandlers;
   }
 }
 
